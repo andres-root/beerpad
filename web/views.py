@@ -7,6 +7,29 @@ def index(request):
     return HttpResponse("It works!")
 
 
+def info(request):
+    phone = request.GET.get('phone', '')
+    barname = request.GET.get('bar', '')
+    bar = Bar.objects.get(username=barname)
+    client = Client.objects.get(phone=phone)
+    bar_info = {
+        'name': bar.name,
+        'username': bar.username,
+        'phone': bar.phone,
+        'beer_cost': bar.beer_cost
+    }
+    client_info = {
+        'name': client.name,
+        'phone': client.phone,
+        'balance': client.balance
+    }
+    response = {
+        'bar': bar_info,
+        'client': client_info
+    }
+    return JsonResponse(response)
+
+
 def payment(request):
     total = 0
     subtotal = 0
