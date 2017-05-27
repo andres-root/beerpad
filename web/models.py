@@ -16,6 +16,7 @@ class Client(models.Model):
 
 class Bar(models.Model):
     name = models.CharField(max_length=400)
+    username = models.CharField(max_length=400)
     phone = models.CharField(max_length=200)
     beer_cost = models.DecimalField(max_digits=6, decimal_places=2)
     date_created = models.DateTimeField(auto_now_add=True)
