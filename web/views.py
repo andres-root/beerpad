@@ -1,6 +1,6 @@
 # from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from .models import Bar, Client, Transaction
+from .models import Bar, Client, Transactions
 
 
 def index(request):
