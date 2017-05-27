@@ -38,7 +38,7 @@ def payment(request):
             client.save()
 
         response = {'status': 'ok'}
-        transaction = Transaction(
+        transaction = Transactions(
             client=client,
             bar=bar,
             table=table,
