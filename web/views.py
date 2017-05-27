@@ -19,7 +19,7 @@ def payment(request):
     split_fare = request.GET.get('split', False)
     try:
         bar = Bar.objects.get(username=barname)
-        client = Bar.objects.get(phone=phone)
+        client = Client.objects.get(phone=phone)
 
         if not discounts:
             beer_cost = bar.beer_cost * beer_amount
