@@ -27,6 +27,8 @@ class Bar(models.Model):
 
 class Transactions(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    bar = models.ForeignKey(Client, on_delete=models.CASCADE)
+    table = models.CharField(max_length=200)
     discounts = models.DecimalField(max_digits=6, decimal_places=2)
     beer_amount = models.FloatField()
     subtotal = models.DecimalField(max_digits=6, decimal_places=2)
