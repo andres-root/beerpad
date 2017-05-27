@@ -37,4 +37,5 @@ class Transactions(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        name = '{0} at {1}'.format(self.client, self.bar)
+        return name
