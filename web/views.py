@@ -10,23 +10,30 @@ def index(request):
 def payment(request):
     total = 0
     subtotal = 0
+    beer_cost = 0
     phone = request.GET.get('phone', '')
     barname = request.GET.get('bar', '')
     table = request.GET.get('table', '')
     beer_amount = request.GET.get('beer', '')
-    discounts = request.GET.get('discounts', '')
-    split_fare = request.GET.get('split', '')
-
+    discounts = request.GET.get('discounts', False)
+    split_fare = request.GET.get('split', False)
     try:
         bar = Bar.objects.get(username=barname)
         client = Bar.objects.get(phone=phone)
-        if split_fare != '':
-            split_mates = split_fare.split(',')
-            total = (bar.beer_cost * beer_amount) / len(split_mates)
+
+        if not discounts:
+            beer_cost = bar.beer_cost * beer_amount
+        else:
+            new_price = bar.beer_cost - (bar.beer_cost * float(discounts))
+            beer_cost = new_price * beer_amount
+
+        if not split_fare:
+            total = beer_cost * beer_amount
             client.balance = client.balance - total
             client.save()
         else:
-            total = bar.beer_cost * beer_amount
+            split_mates = split_fare.split(',')
+            total = beer_cost / len(split_mates)
             client.balance = client.balance - total
             client.save()
 
@@ -37,7 +44,7 @@ def payment(request):
             table=table,
             discounts=discounts,
             beer_amount=beer_amount,
-            subtotal=total,
+            subtotal=subtotal,
             total=total
         )
         transaction.save()
