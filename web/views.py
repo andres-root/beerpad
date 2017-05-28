@@ -4,7 +4,7 @@ from .models import Bar, Client, Transactions
 
 
 def index(request):
-    return HttpResponse("It works!")
+    return HttpResponse("Welcome to Flash Beer")
 
 
 def info(request):
