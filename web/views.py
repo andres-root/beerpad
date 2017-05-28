@@ -42,10 +42,13 @@ def payment(request):
     start = request.GET.get('start', False)
     end = request.GET.get('end', False)
     rate = 16.0
-    t1 = datetime.strptime(start, '%H:%M:%S')
-    t2 = datetime.strptime(end, '%H:%M:%S')
-    difference = (t1-t2).total_seconds()
-    beer_amount = difference * rate
+    if start and end:
+        t1 = datetime.strptime(start, '%H:%M:%S')
+        t2 = datetime.strptime(end, '%H:%M:%S')
+        difference = (t1-t2).total_seconds()
+        beer_amount = difference * rate
+    else:
+        beer_amount = 330.0
     try:
         bar = Bar.objects.get(username=barname)
         client = Client.objects.get(phone=phone)
