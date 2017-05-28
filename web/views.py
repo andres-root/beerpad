@@ -48,6 +48,7 @@ def payment(request):
         difference = (t1-t2).total_seconds()
         beer_amount = difference * rate
     else:
+        # Fallback
         beer_amount = 330.0
     try:
         bar = Bar.objects.get(username=barname)
