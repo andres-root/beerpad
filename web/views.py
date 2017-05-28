@@ -40,42 +40,42 @@ def payment(request):
     beer_amount = request.GET.get('beer', '')
     discounts = request.GET.get('discounts', False)
     split_fare = request.GET.get('split', False)
-    # try:
-    bar = Bar.objects.get(username=barname)
-    client = Client.objects.get(phone=phone)
+    try:
+        bar = Bar.objects.get(username=barname)
+        client = Client.objects.get(phone=phone)
 
-    if not discounts:
-        beer_cost = float(bar.beer_cost) * float(beer_amount)
-    else:
-        new_price = float(bar.beer_cost) - (float(bar.beer_cost) * float(discounts))
-        beer_cost = new_price * float(beer_amount)
+        if not discounts:
+            beer_cost = float(bar.beer_cost) * float(beer_amount)
+        else:
+            new_price = float(bar.beer_cost) - (float(bar.beer_cost) * float(discounts))
+            beer_cost = new_price * float(beer_amount)
 
-    if not split_fare:
-        total = beer_cost * float(beer_amount)
-        client.balance = client.balance - total
-        client.save()
-    else:
-        split_mates = split_fare.split(',')
-        total = beer_cost / len(split_mates)
-        client.balance = client.balance - total
-        client.save()
+        if not split_fare:
+            total = beer_cost * float(beer_amount)
+            client.balance = client.balance - total
+            client.save()
+        else:
+            split_mates = split_fare.split(',')
+            total = beer_cost / len(split_mates)
+            client.balance = client.balance - total
+            client.save()
 
-    response = {'status': 'ok'}
-    transaction = Transactions(
-        client=client,
-        bar=bar,
-        table=table,
-        discounts=discounts,
-        beer_amount=float(beer_amount),
-        subtotal=subtotal,
-        total=total
-    )
-    transaction.save()
-    return JsonResponse(response)
-    # except:
-    #     error_message = 'An error has ocurred. Please try again.'
-    #     response = {
-    #         'status': 'error',
-    #         'message': error_message
-    #     }
-    #     return JsonResponse(response)
+        response = {'status': 'ok'}
+        transaction = Transactions(
+            client=client,
+            bar=bar,
+            table=table,
+            discounts=discounts,
+            beer_amount=float(beer_amount),
+            subtotal=subtotal,
+            total=total
+        )
+        transaction.save()
+        return JsonResponse(response)
+    except:
+        error_message = 'An error has ocurred. Please try again.'
+        response = {
+            'status': 'error',
+            'message': error_message
+        }
+        return JsonResponse(response)
