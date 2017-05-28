@@ -6,7 +6,7 @@ from django.db import models
 class Client(models.Model):
     name = models.CharField(max_length=400)
     phone = models.CharField(max_length=200)
-    balance = models.DecimalField(max_digits=6, decimal_places=2)
+    balance = models.FloatField()
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
@@ -18,7 +18,7 @@ class Bar(models.Model):
     name = models.CharField(max_length=400)
     username = models.CharField(max_length=400)
     phone = models.CharField(max_length=200)
-    beer_cost = models.DecimalField(max_digits=6, decimal_places=2)
+    beer_cost = models.FloatField()
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
@@ -30,10 +30,10 @@ class Transactions(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     bar = models.ForeignKey(Bar, on_delete=models.CASCADE)
     table = models.CharField(max_length=200)
-    discounts = models.DecimalField(max_digits=6, decimal_places=2)
+    discounts = models.FloatField()
     beer_amount = models.FloatField()
-    subtotal = models.DecimalField(max_digits=6, decimal_places=2)
-    total = models.DecimalField(max_digits=6, decimal_places=2)
+    subtotal = models.FloatField()
+    total = models.FloatField()
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
