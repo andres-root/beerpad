@@ -1,7 +1,7 @@
 # from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .models import Bar, Client, Transactions
-
+from datetime import datetime
 
 def index(request):
     return HttpResponse("Welcome to Flash Beer")
@@ -37,9 +37,15 @@ def payment(request):
     phone = request.GET.get('phone', '')
     barname = request.GET.get('bar', '')
     table = request.GET.get('table', '')
-    beer_amount = request.GET.get('beer', '')
     discounts = request.GET.get('discounts', False)
     split_fare = request.GET.get('split', False)
+    start = request.GET.get('start', False)
+    end = request.GET.get('end', False)
+    rate = 16.0
+    t1 = datetime.strptime(start, '%H:%M:%S')
+    t2 = datetime.strptime(end, '%H:%M:%S')
+    difference = (t1-t2).total_seconds()
+    beer_amount = difference * rate
     try:
         bar = Bar.objects.get(username=barname)
         client = Client.objects.get(phone=phone)
